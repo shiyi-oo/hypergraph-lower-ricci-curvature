@@ -1,0 +1,18 @@
+# ignore all OS or editor temp files:
+*.swp
+*~
+.DS_Store
+
+# ignore build artifacts and logs:
+/build/
+*.log
+
+# ignore node_modules folder:
+node_modules/
+
+# ignore environment files:
+.env
+
+.ipynb_checkpoints/
+__pycache__/
+code/Stex/derived_data.zip
