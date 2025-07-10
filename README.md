@@ -7,7 +7,8 @@ Yang, S., Chen, C., & Li, D. (2025). Lower Ricci Curvature for Hypergraphs. arXi
 Paper link: [https://arxiv.org/pdf/2506.03943](https://arxiv.org/pdf/2506.03943)
 
 ## Repo Structure
-Code: includes the source code to caculate HLRC and HFRC, while the computation of HORC in julia should refers to the implementation given in https://github.com/aidos-lab/orchid.git.
+Code: 
+  - src: includes the source code to caculate HLRC and HFRC, while the computation of HORC in julia should refers to the implementation given in https://github.com/aidos-lab/orchid.git.
   - special_hypg, hsbm: special uniform hypergraphs were visualized, and synthetic hypergraphs based on stochastic block model were generated and evaluated.
   - contact-high school, MADStat, MAG-10, Mus, Stex: the real-world dataset evaluation
       1. Data process
