@@ -14,4 +14,6 @@ node_modules/
 .env
 
 .ipynb_checkpoints/
-__pycache__/
+__pycache__/code/hsbm/figures
+.vscode
+.venv
