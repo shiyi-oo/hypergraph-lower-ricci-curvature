@@ -1,8 +1,7 @@
 import glob
-import re
-
-import numpy as np
+import os
 import pandas as pd
+import numpy as np
 from sklearn.decomposition import KernelPCA
 from sklearn.metrics.pairwise import rbf_kernel
 from sklearn.preprocessing import scale
@@ -120,31 +119,34 @@ def plot_embed(embedding, labels, fig_output = None):
 # ---------------------------------------------------------------------------- #
 
 # 1) Load site labels
-labels = []
-with open("../../data/raw/stex/stex_site_id.txt", "r") as f:
-    for line in f:
-        idx, label = line.strip().split("\t")
-        labels.append(label)
-        
+meta = pd.read_csv(
+    "../../data/raw/stex/stex_site_id.txt",
+    sep="\t",
+    header=None,
+    names=["hg_idx", "label"],
+    dtype={"hg_idx": int, "label": str},
+)
+labels = meta["label"].tolist()
+site_ids = meta["hg_idx"].tolist()
+
 # 2) Load HORC results
-import json
-file_folder = "/work/users/s/h/shiyi/hypergraph_with_curvature/results/stex_horc/"
-files = glob.glob(file_folder + "stex_horc_*.json")
+file_folder = "derived_data/horc"
+pattern = os.path.join(file_folder, "stex_*_horc.tsv")
+paths = glob.glob(pattern)
 
-stex_horc = []
-idx = []
-for file in files:
-    with open(file, "r") as f:
-        data = json.load(f)
-        for key, value in data.items():
-            idx.append(int(key))
-            stex_horc.append(data[key]['aggregations'][0]['edge_curvature'])
+frames = [pd.read_csv(path, sep="\t") for path in paths]
+stex_horc = pd.concat(frames, ignore_index=True)
 
-# 3) Reorder to match labels
-sorted_idx = sorted(range(len(idx)), key=lambda i: idx[i])
-idx_sorted = [idx[i] for i in sorted_idx]
-stex_horc_mapped = [stex_horc[i] for i in sorted_idx]
+# 3) Build a mapping hg_idx -> numpy array of HORC values
+grouped = (
+    stex_horc.groupby("hg_idx")["horc"]
+    .apply(lambda s: s.to_numpy(dtype=float))
+    .to_dict()
+)
 
-# 4) Compute embedding and plot
+# 4) Assemble in the same order as the label file
+stex_horc_mapped = [grouped[hg] for hg in site_ids if hg in grouped]
+
+# 5) Feed into the histogram / KPCA pipeline
 horc_embed = kpca(horc_histogram(stex_horc_mapped), 2)
 plot_embed(horc_embed, labels, fig_output = "figures/Stex_HORC_kpca.pdf")
