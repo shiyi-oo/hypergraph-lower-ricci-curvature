@@ -1,4 +1,4 @@
-# Lower Ricci Curvature for Hypergraph
+# Curvature-Induced Hypergraph Index
 
 This git repo includes both data and codes to reproduce results given in paper "Lower Ricci Curvature for Hypergraphs".
 
