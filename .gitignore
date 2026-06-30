@@ -17,3 +17,14 @@ node_modules/
 __pycache__/code/hsbm/figures
 .vscode
 .venv
+
+DHG-Bench/
+figures/
+code_old/
+
+code/simulations/nu_figures/
+code/simulations/u_figures/
+data/
+code/stex/horc/
+tmp/
+orchid/

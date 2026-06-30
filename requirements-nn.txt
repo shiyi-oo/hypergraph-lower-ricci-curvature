@@ -1,0 +1,5 @@
+# Install together with the base dependencies:
+# python -m pip install -r requirements.txt -r requirements-nn.txt
+
+torch>=2.6,<3
+torch-geometric>=2.6,<3
